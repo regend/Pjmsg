@@ -1,0 +1,284 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+  <title>Jmtop 项目管理系统</title>
+
+  <!-- No Baidu Siteapp-->
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+  <link rel="icon" type="image/png" href="/static/i/favicon.png">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="/static/i/app-icon72x72@2x.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+  <link rel="apple-touch-icon-precomposed" href="/static/i/app-icon72x72@2x.png">
+
+  <link rel="stylesheet" href="/static/css/amazeui.min.css">
+  <link rel="stylesheet" href="/static/css/admin.css">
+  <link rel="stylesheet" href="/static/css/app.css">
+
+  <style type="text/css">
+  </style>
+</head>
+<body class="am-padding-bottom">
+<header class="am-topbar am-topbar-inverse admin-header">
+  <div class="am-topbar-brand">
+    <strong>Jmtop</strong> <small>项目资源管理</small>
+  </div>
+   <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+    <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+      <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-tv"></span> <span class="admin-fullText">管理员后台</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="am-cf admin-main">
+  <!-- sidebar start -->
+  <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+    <div class="am-offcanvas-bar admin-offcanvas-bar">
+      <ul class="am-list admin-sidebar-list">
+        <li><a href="{{ request.host_url }}"><span class="am-icon-home"></span> 首页</a></li>
+        <li class="admin-parent">
+          <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 分组 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+          <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+            {% for m in modules %}
+            <li><a id="module-{{ m.id }}" href="{{ request.host_url }}manager/{{ m.id }}/DEV/" class="am-cf"> {{ m.name }} </a></li>
+            {% endfor %}
+          </ul>
+        </li>
+      </ul>
+
+      <div class="am-panel am-panel-default admin-sidebar-panel am-topbar-fixed-bottom">
+        <div class="am-panel-bd">
+          <p><span class="am-icon-bookmark"></span> 提示</p>
+          <p>集群地址为k8s内部使用域名,用于应用之间通信和配置.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- sidebar end -->
+
+  <!-- content start -->
+<div class="admin-content">
+  <div class="admin-content-body">
+    <div class="am-cf am-padding am-padding-bottom-0">
+      <div class="am-fl am-cf">
+        <strong class="am-text-primary am-text-lg">{{ project_cur.name }}</strong> 
+      </div>
+    </div>
+
+    <form id="modify" class="am-form am-margin-top" action="{{ request.host_url }}api/modify" method="POST">
+    <div class="am-tabs am-margin" data-am-tabs="{noSwipe: 1}">
+      <ul class="am-tabs-nav am-nav am-nav-tabs">
+        <li id="li_pro"><a href="#pro">PRO</a></li>
+        <li id="li_fat"><a href="#fat">FAT</a></li>
+        <li id="li_dev"><a href="#dev">DEV</a></li>
+      </ul>
+
+      <div class="am-tabs-bd">
+        <input id="module_id" name="module_id" type="hidden" value="{{ project_cur.moduleId }}"/>
+        <input id="project_env" name="project_env" type="hidden" value="{{ project_cur.env }}"/>
+        <input id="project_name" name="project_name" type="hidden" value="{{ project_cur.name }}"/>
+        <input id="id_pro" name="id_pro" type="hidden" value="{{ project_pro.id }}"/>
+        <input id="id_fat" name="id_fat" type="hidden" value="{{ project_fat.id }}"/>
+        <input id="id_dev" name="id_dev" type="hidden" value="{{ project_dev.id }}"/>
+        <div class="am-tab-panel am-fade am-in" id="pro">
+
+            <div class="am-g am-margin-top">
+                <div class="am-u-sm-1 am-u-md-1">
+                    HTTP协议
+                </div>
+                <div class="am-u-sm-11 am-u-md-5 am-u-end col-end">
+                <label class="am-radio-inline">
+                    <input type="radio" name="http_pro" id="http_pro" value="" data-am-ucheck>
+                    无
+                </label>
+                <label class="am-radio-inline">
+                    <input type="radio" name="http_pro" id="http_pro" value="http://" data-am-ucheck>
+                    HTTP
+                </label>
+                <label class="am-radio-inline">
+                    <input type="radio" name="http_pro" id="http_pro" value="https://" data-am-ucheck>
+                    HTTPS
+                </label>
+                </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-1 am-u-md-1">
+                公网地址
+              </div>
+              <div class="am-u-sm-11 am-u-md-4 am-u-end col-end">
+                <input name="publicAddr_pro" type="text" class="am-input-sm" value="{{ project_pro.publicAddr }}">
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-1 am-u-md-1">
+                内网地址
+              </div>
+              <div class="am-u-sm-11 am-u-md-4 am-u-end col-end">
+                <input name="privateAddr_pro" type="text" class="am-input-sm" value="{{ project_pro.privateAddr }}">
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-1 am-u-md-1">
+                集群地址
+              </div>
+              <div class="am-u-sm-11 am-u-md-4 am-u-end col-end">
+                <input name="k8sAddr_pro" type="text" class="am-input-sm" value="{{ project_pro.k8sAddr }}">
+              </div>
+            </div>
+
+        </div>
+
+        <div class="am-tab-panel am-fade" id="fat">
+            <div class="am-g am-margin-top">
+                <div class="am-u-sm-1 am-u-md-1">
+                    HTTP协议
+                </div>
+                <div class="am-u-sm-11 am-u-md-5 am-u-end col-end">
+                <label class="am-radio-inline">
+                    <input type="radio" name="http_fat" id="http_fat" value="" data-am-ucheck>
+                    无
+                </label>
+                <label class="am-radio-inline">
+                    <input type="radio" name="http_fat" id="http_fat" value="http://" data-am-ucheck>
+                    HTTP
+                </label>
+                <label class="am-radio-inline">
+                    <input type="radio" name="http_fat" id="http_fat" value="https://" data-am-ucheck>
+                    HTTPS
+                </label>
+                </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-1 am-u-md-1">
+                公网地址
+              </div>
+              <div class="am-u-sm-11 am-u-md-4 am-u-end col-end">
+                <input name="publicAddr_fat" type="text" class="am-input-sm" value="{{ project_fat.publicAddr }}">
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-1 am-u-md-1">
+                内网地址
+              </div>
+              <div class="am-u-sm-11 am-u-md-4 am-u-end col-end">
+                <input name="privateAddr_fat" type="text" class="am-input-sm" value="{{ project_fat.privateAddr }}">
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-1 am-u-md-1">
+                集群地址
+              </div>
+              <div class="am-u-sm-11 am-u-md-4 am-u-end col-end">
+                <input name="k8sAddr_fat" type="text" class="am-input-sm" value="{{ project_fat.k8sAddr }}">
+              </div>
+            </div>
+
+        </div>
+
+        <div class="am-tab-panel am-fade" id="dev">
+            <div class="am-g am-margin-top">
+                <div class="am-u-sm-1 am-u-md-1">
+                    HTTP协议
+                </div>
+                <div class="am-u-sm-11 am-u-md-5 am-u-end col-end">
+                <label class="am-radio-inline">
+                    <input type="radio" name="http_dev" id="http_dev" value="" data-am-ucheck>
+                    无
+                </label>
+                <label class="am-radio-inline">
+                    <input type="radio" name="http_dev" id="http_dev" value="http://" data-am-ucheck>
+                    HTTP
+                </label>
+                <label class="am-radio-inline">
+                    <input type="radio" name="http_dev" id="http_dev" value="https://" data-am-ucheck>
+                    HTTPS
+                </label>
+                </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-1 am-u-md-1">
+                公网地址
+              </div>
+              <div class="am-u-sm-11 am-u-md-4 am-u-end col-end">
+                <input name="publicAddr_dev" type="text" class="am-input-sm" value="{{ project_dev.publicAddr }}">
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-1 am-u-md-1">
+                内网地址
+              </div>
+              <div class="am-u-sm-11 am-u-md-4 am-u-end col-end">
+                <input name="privateAddr_dev" type="text" class="am-input-sm" value="{{ project_dev.privateAddr }}">
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-1 am-u-md-1">
+                集群地址
+              </div>
+              <div class="am-u-sm-11 am-u-md-4 am-u-end col-end">
+                <input name="k8sAddr_dev" type="text" class="am-input-sm" value="{{ project_dev.k8sAddr }}">
+              </div>
+            </div>
+
+
+        </div>
+
+      </div>
+    </div>
+    </form>
+
+    <div class="am-margin">
+      <button id="comfirm" type="button" class="am-btn am-btn-primary am-btn-sm">提交</button>
+      <button id="cancel" type="button" class="am-btn am-btn-primary am-btn-sm">取消</button>
+    </div>
+  </div>
+
+</div>
+<!-- content end -->
+</div>
+
+
+<script src="https://cdn.bootcss.com/jquery/1.12.3/jquery.min.js"></script>
+<script src="/static/js/amazeui.min.js"></script>
+</body>
+<script>
+$(document).ready(function(){
+    $("#module-{{ project_cur.moduleId }}").append("<span class=\"am-icon-hand-lizard-o\"></span>")
+    $("#li_pro").removeClass('am-active');
+    $("#pro").removeClass('am-active');
+    $("#{{ project_cur.env.lower() }}").addClass('am-active');
+    $("#{{ project_cur.env.lower() }}").addClass('am-in');
+    $("#li_{{ project_cur.env.lower() }}").addClass('am-active');
+    $("input[name='http_pro'][value='{{ project_pro.http }}']").uCheck('check');
+    $("input[name='http_fat'][value='{{ project_fat.http }}']").uCheck('check');
+    $("input[name='http_dev'][value='{{ project_dev.http }}']").uCheck('check');
+
+    $("#comfirm").click(function(){
+        $("#modify").submit()
+    })
+});
+</script>
+</html>
