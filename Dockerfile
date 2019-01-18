@@ -2,7 +2,7 @@ FROM registry.cn-hongkong.aliyuncs.com/regend/python:flask
 
 MAINTAINER Regend
 
-COPY ./Pjmsg/ /home/Pjmsg/
+COPY ./ /home/Pjmsg/
 
 WORKDIR /home/Pjmsg/
 
