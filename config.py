@@ -1,6 +1,6 @@
 __author__ = 'Regend'
 
-SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:zhongtai123@192.168.2.114:30006/pjmsg?charset=utf8'
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://qa:Qa123456@public-qa.mysql.rds.aliyuncs.com:3306/pjmsg?charset=utf8'
 SQLALCHEMY_POOL_SIZE = 20
 SQLALCHEMY_MAX_OVERFLOW = 5
 SQLALCHEMY_COMMIT_TEARDOWN = True
