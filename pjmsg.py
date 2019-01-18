@@ -129,7 +129,6 @@ def back_add():
 @app.route('/api/login', methods=['POST'])
 def api_login():
     pwd = request.form['logpass']
-    print(request.args)
     if pwd == 'Jmtop123':
         return redirect(url_for('back_view', env='DEV', module_id=1))
     else:
