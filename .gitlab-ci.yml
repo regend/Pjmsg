@@ -9,7 +9,7 @@ stages:
   - docker push registry.cn-hongkong.aliyuncs.com/regend/python:flask
   - docker rmi registry.cn-hongkong.aliyuncs.com/regend/python:flask
  tags:
-  - qa
+  - dev
 
 发布-qa:
  stage: 发布
