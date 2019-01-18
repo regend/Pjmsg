@@ -5,9 +5,9 @@ stages:
 镜像:
  stage: 部署
  script:
-  - docker build -t registry.cn-hongkong.aliyuncs.com/regend/python:flask .
-  - docker push registry.cn-hongkong.aliyuncs.com/regend/python:flask
-  - docker rmi registry.cn-hongkong.aliyuncs.com/regend/python:flask
+  - docker build -t registry.cn-hongkong.aliyuncs.com/regend/pjmsg:latest .
+  - docker push registry.cn-hongkong.aliyuncs.com/regend/pjmsg:latest
+  - docker rmi registry.cn-hongkong.aliyuncs.com/regend/pjmsg:latest
  tags:
   - dev
 
