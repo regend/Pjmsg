@@ -15,6 +15,6 @@ stages:
  stage: 发布
  script:
   - docker image prune -f
-  - kubectl delete pod -n qa -l app:pjmsg --ignore-not-found
+  - kubectl delete pod -n qa -l app=pjmsg --ignore-not-found
  tags:
   - qa
