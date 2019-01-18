@@ -16,3 +16,4 @@ spy.log
 **/net.authorize.aim.log
 classes
 bin
+.config.py

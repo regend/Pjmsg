@@ -1,0 +1,20 @@
+stages:
+ - 部署
+ - 发布
+
+镜像:
+ stage: 部署
+ script:
+  - docker build -t registry.cn-hongkong.aliyuncs.com/regend/python:flask .
+  - docker push registry.cn-hongkong.aliyuncs.com/regend/python:flask
+  - docker rmi registry.cn-hongkong.aliyuncs.com/regend/python:flask
+ tags:
+  - qa
+
+发布-qa:
+ stage: 发布
+ script:
+  - docker image prune -f
+  - kubectl delete pod -n qa -l app:pjmsg --ignore-not-found
+ tags:
+  - qa

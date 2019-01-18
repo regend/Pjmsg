@@ -10,7 +10,7 @@ app = Flask(__name__)
 def index_env(module_id, env):
     module = Module.query.filter_by(id=module_id).first()
     modules = Module.query.order_by('order').all()
-    project = Project.query.filter_by(env=env, moduleId=module_id)
+    project = Project.query.filter_by(env=env, moduleId=module_id).order_by('name').all()
     return render_template('index.html', project=project, env=env, modules=modules, module=module)
 
 
@@ -18,7 +18,7 @@ def index_env(module_id, env):
 def back_view(module_id, env):
     module = Module.query.filter_by(id=module_id).first()
     modules = Module.query.order_by('order').all()
-    project = Project.query.filter_by(env=env, moduleId=module_id)
+    project = Project.query.filter_by(env=env, moduleId=module_id).order_by('name').all()
     return render_template('back_view.html', project=project, env=env, modules=modules, module=module)
 
 
